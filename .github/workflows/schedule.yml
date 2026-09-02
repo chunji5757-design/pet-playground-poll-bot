@@ -1,0 +1,33 @@
+name: 매일 투표 생성
+
+on:
+  schedule:
+    # 매일 한국 시간 오전 9시 (UTC 0시)
+    - cron: '0 0 * * *'
+  
+  # 수동 테스트용 (Actions 탭에서 실행 버튼 클릭 가능)
+  workflow_dispatch:
+
+jobs:
+  create-poll:
+    runs-on: ubuntu-latest
+    
+    steps:
+      # 1단계: 코드 다운로드
+      - name: 코드 가져오기
+        uses: actions/checkout@v3
+      
+      # 2단계: Python 설치
+      - name: Python 설치
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+      
+      # 3단계: 패키지 설치
+      - name: 필요한 패키지 설치
+        run: |
+          pip install -r requirements.txt
+      
+      # 4단계: 스크립트 실행
+      - name: 투표 생성 스크립트 실행
+        run: python main.py
